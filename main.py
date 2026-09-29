@@ -6,6 +6,18 @@ import os
 
 st.set_page_config(page_title="Finance Tracker app", page_icon="💰", layout="wide")
 
+if "categories" is not st.session_state:
+    st.session_state.categories = {
+        "Uncategorized": []
+    }
+if os.path.exists("categories.json"):
+    with open("categories.json", "r") as f:
+        st.session_state.categories = json.load(f)
+
+def save_categories():
+    with open("categories.json", "w") as f:
+        json.dump(st.session_state.categories, f)
+
 def load_transactions(file):
     try:
         df = pd.read_csv(file)
